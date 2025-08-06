@@ -7,7 +7,7 @@ st.set_page_config(
     page_title="EduHelper Bot",
     page_icon="🎓",
     layout="centered",
-    initial_sidebar_state="auto"
+    
 )
 
 # --- App Title and Description ---
@@ -34,20 +34,7 @@ Follow these rules strictly:
 7.  **Summary and Encouragement:** End your response with a concluding sentence to motivate the user to start their learning journey.
 """
 
-# --- Sidebar Information ---
-with st.sidebar:
-    st.header("🔗 About this Project")
-    st.markdown(
-        "**EduHelper Bot** is an AI chatbot that provides free online learning "
-        "resources based on your interests, making education accessible to all."
-    )
-    st.markdown("**🎯 SDG Goal:** #4 - Quality Education")
-    st.markdown("**💻 Tech Stack:** Python, Streamlit, Google Gemini")
-    st.markdown(
-        "**⚠️ Note:** This app uses the developer's API key. "
-        "Please be respectful of the usage."
-    )
-    st.markdown("**🧑‍💻 Created by:** [Your Name Here]") # Feel free to change this!
+
 
 # --- Main Chat Logic ---
 
@@ -63,11 +50,8 @@ else:
 
 # Initialize chat history
 if "messages" not in st.session_state:
-    st.session_state.messages = []
-
-# Add the system prompt (but don't display it)
-if not any(msg["role"] == "system" for msg in st.session_state.messages):
-        st.session_state.messages.append({"role": "system", "content": SYSTEM_PROMPT})
+    # Append the system prompt as the very first message
+    st.session_state.messages = [{"role": "system", "content": SYSTEM_PROMPT}]
 
 # Add a welcome message if the chat is new
 if len(st.session_state.messages) <= 1:
@@ -92,28 +76,31 @@ if user_prompt := st.chat_input("Suggest coding courses for beginners..."):
 
     with st.chat_message("assistant"):
         with st.spinner("Finding the best resources for you..."):
-            # Construct context for the model
+            # Construct context for the model using the old method
             prompt_history = [
                 {"role": "user" if msg["role"] == "user" else "model", "parts": [msg["content"]]}
                 for msg in st.session_state.messages
             ]
-            full_prompt = [
-                {"role": "user", "parts": [SYSTEM_PROMPT]},
-                {"role": "model", "parts": ["Understood. I am EduHelper Bot, ready to assist."]}
-            ] + prompt_history
 
-            # Get response from the model
-            chat_session = model.start_chat(history=full_prompt)
-            response = chat_session.send_message(user_prompt)
-            response_text = response.text
-
-            # Stream response with a typing effect
+            # The system prompt is already in the history, so we don't need a separate list.
+            # We just pass the entire prompt_history to the start_chat method.
+            chat_session = model.start_chat(history=prompt_history)
+            
+            # Now, send only the *last* user message to the session.
+            # The session automatically knows the context from the `history` provided at start_chat
+            response_stream = chat_session.send_message(user_prompt, stream=True)
+            
+            # Initialize an empty container to hold the full response
             message_placeholder = st.empty()
             full_response = ""
-            for chunk in response_text.split():
-                full_response += chunk + " "
-                time.sleep(0.05)
+            
+            # Iterate over the streamed chunks and build the full response
+            for chunk in response_stream:
+                full_response += chunk.text
                 message_placeholder.markdown(full_response + "▌")
+                
+            # Display the final, complete response without the cursor
             message_placeholder.markdown(full_response)
-
-    st.session_state.messages.append({"role": "assistant", "content": response_text})
+    
+    # Append the final, fully-formatted response to the chat history
+    st.session_state.messages.append({"role": "assistant", "content": full_response})
