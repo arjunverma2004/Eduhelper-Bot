@@ -6,6 +6,14 @@
 
 Whether you're a complete beginner or looking to deepen your knowledge, EduHelper Bot acts as your personal learning coach, guiding you through weekly goals and curating high-quality, free resources to help you achieve your learning objectives.
 
+## 🚀 Demo
+
+Try the app on **Streamlit Cloud**:
+
+👉 [Launch App](https://edu-bot-lannisters.streamlit.app/)
+
+![App Screenshot](https://github.com/arjunverma2004/urbansound8k-classifier/blob/2cc3ca449176dff5c1aea62168ff18e1003d3f49/screenshots/edu-bot-lannisters.streamlit.app.png)
+
 ## **✨ Features**
 
 * **Personalized Learning Plans:** Get a tailored, week-by-week roadmap for any subject.  
@@ -34,43 +42,41 @@ Follow these steps to get EduHelper Bot running locally or understand its deploy
 
 ### **1\. Clone the Repository**
 
+```bash
 git clone https://github.com/\<Your-GitHub-Username\>/EduHelper-Bot.git  
 cd EduHelper-Bot
+```
 
-### **2\. Create a Virtual Environment (Recommended)**
 
-python \-m venv venv  
-\# On Windows:  
-.\\venv\\Scripts\\activate  
-\# On macOS/Linux:  
-source venv/bin/activate
-
-### **3\. Install Dependencies**
+### **2\. Install Dependencies**
 
 pip install \-r requirements.txt
 
 *(You'll need to create a requirements.txt file if you haven't already. You can generate it using pip freeze \> requirements.txt after installing streamlit and google-generativeai.)*
 
-### **4\. Get Your Google Gemini API Key**
+### **3\. Get Your Google Gemini API Key**
 
 1. Go to [Google AI Studio](https://aistudio.google.com/).  
 2. Log in with your Google account.  
 3. Create a new API key.  
 4. Copy your API key.
 
-### **5\. Configure Streamlit Secrets**
+### **4\. Configure Streamlit Secrets**
 
-Create a directory named .streamlit in the root of your project if it doesn't already exist. Inside .streamlit, create a file named secrets.toml.
+Create a directory named ```.streamlit``` in the root of your project if it doesn't already exist. Inside ```.streamlit```, create a file named ```secrets.toml```.
 
 Add your Gemini API key to secrets.toml like this:
+```
+GEMINI_API_KEY="your_gemini_api_key_here"
+```
 
-GEMINI\_API\_KEY="your\_gemini\_api\_key\_here"
+Replace ```"your_gemini_api_key_here"``` with the actual API key you obtained from Google AI Studio.
 
-Replace "your\_gemini\_api\_key\_here" with the actual API key you obtained from Google AI Studio.
+### **5\. Run the Application**
 
-### **6\. Run the Application**
-
+```bash
 streamlit run app.py
+```
 
 Your browser should automatically open the EduHelper Bot application.
 
@@ -80,7 +86,7 @@ The app supports multiple custom themes for a personalized experience. You can s
 
 ## **🤝 Contributing**
 
-Contributions are welcome\! If you have suggestions for improvements, bug fixes, or new features, please open an issue or submit a pull request.
+Contributions are welcome! If you have suggestions for improvements, bug fixes, or new features, please open an issue or submit a pull request.
 
 ## **📄 License**
 
@@ -91,4 +97,4 @@ This project is licensed under the MIT License \- see the [LICENSE](https://www.
 * Built with [Streamlit](https://streamlit.io/)  
 * Powered by [Google Gemini](https://ai.google.dev/gemini-api)
 
-**Created by: \[Your Name Here\]** (Remember to update this with your actual name or GitHub profile link\!)
+**Created by: Arjun Verma** 
