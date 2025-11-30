@@ -43,7 +43,7 @@ Follow these steps to get EduHelper Bot running locally or understand its deploy
 ### **1\. Clone the Repository**
 
 ```bash
-git clone https://github.com/\<Your-GitHub-Username\>/EduHelper-Bot.git  
+git clone https://github.com/arjunverma2004/EduHelper-Bot.git  
 cd EduHelper-Bot
 ```
 
